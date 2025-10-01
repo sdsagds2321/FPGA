@@ -1,4 +1,4 @@
-function flow_out = FarnebackUpdateFlow_BoxBlur_sliding_hdl(matM, flow_in, n, num_iter)
+function flow_out = FarnebackUpdateFlow_BoxBlur_sliding_hdl(matM, flow_in, n, num_iter, alpha)
 % FarnebackUpdateFlow_BoxBlur_sliding_hdl - Update optical flow using iterative refinement
 %
 % This function solves the linear system at each pixel to update the flow field,
@@ -11,6 +11,7 @@ function flow_out = FarnebackUpdateFlow_BoxBlur_sliding_hdl(matM, flow_in, n, nu
 %   flow_in  - Initial flow estimate (H x W x 2)
 %   n        - Box filter size for smoothing (default: 5)
 %   num_iter - Number of iterations for refinement (default: 1)
+%   alpha    - Update damping factor (default: 1.0, range: 0-1)
 %
 % Output:
 %   flow_out - Updated flow field (H x W x 2)
@@ -20,6 +21,9 @@ function flow_out = FarnebackUpdateFlow_BoxBlur_sliding_hdl(matM, flow_in, n, nu
     end
     if nargin < 4
         num_iter = 1;
+    end
+    if nargin < 5
+        alpha = 1.0;
     end
     
     [H, W, ~] = size(flow_in);
@@ -61,8 +65,8 @@ function flow_out = FarnebackUpdateFlow_BoxBlur_sliding_hdl(matM, flow_in, n, nu
             end
         end
         
-        % Update flow
-        flow_out = flow_out + delta_flow;
+        % Update flow with damping
+        flow_out = flow_out + alpha * delta_flow;
         
         % Apply box blur smoothing
         if n > 1

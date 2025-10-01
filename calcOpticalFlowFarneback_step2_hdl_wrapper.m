@@ -20,8 +20,8 @@ function [u, v, mag, ang] = calcOpticalFlowFarneback_step2_hdl_wrapper(img0, img
         params = struct();
         params.polyN = 5;
         params.polySigma = 1.1;
-        params.winSize = 13;
-        params.numIters = 3;
+        params.winSize = 5;
+        params.numIters = 1;
         params.pyrScale = 0.5;
         params.numLevels = 1;
     end

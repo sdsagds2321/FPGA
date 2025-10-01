@@ -26,8 +26,8 @@ function [flow, R0, R1] = calcOpticalFlowFarneback_step2_hdl(img0, img1, params)
     end
     if ~isfield(params, 'polyN'), params.polyN = 5; end
     if ~isfield(params, 'polySigma'), params.polySigma = 1.1; end
-    if ~isfield(params, 'winSize'), params.winSize = 13; end
-    if ~isfield(params, 'numIters'), params.numIters = 3; end
+    if ~isfield(params, 'winSize'), params.winSize = 5; end
+    if ~isfield(params, 'numIters'), params.numIters = 1; end
     if ~isfield(params, 'pyrScale'), params.pyrScale = 0.5; end
     if ~isfield(params, 'numLevels'), params.numLevels = 1; end
     
