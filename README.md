@@ -4,6 +4,7 @@
 
 ### 程式功能說明
 將三種圖形顯示在VGA螢幕上
+<img width="1477" height="1108" alt="image" src="https://github.com/user-attachments/assets/befa97da-aca2-4b18-8e92-86a9a6113951" />
 
 
 ### 實體演示
