@@ -24,25 +24,27 @@
 
 * **現象**：`o_count` 到達邊界值，`counter_move_state` 從 `counting` 狀態立即轉變為反向移動狀態。球體順利反彈。
 
-![成功回擊波形圖](./images/successful_return.png)
+<img width="772" height="476" alt="image" src="https://github.com/user-attachments/assets/e4782138-28d1-474f-88f3-88f185bd6815" />
+
 > *圖說：球到達邊緣，按鈕訊號被觸發，狀態機成功切換方向。*
 
-### 2. 提早打擊 (Early Hit / Foul)
-**情境**：球還沒到達邊緣 (例如 `o_count` 還在中間位置)，玩家就按下了按鈕。
+### 2. 隨機變速 (Random Speed Mode)
+**情境**：將變速開關 `i_speed_switch` 拉高 (`1`)，啟用隨機速度模式。
 
-* **現象**：按鈕訊號變為 High，但 `o_count` 尚未達到邊界值。
-* **結果**：`counter_move_state` 直接跳轉至 `win` 狀態 (對手得分)，判定犯規。
+* **現象**：在變速模式下，觀察 `o_count` 每一格移動的時間寬度（波形持續時間）。可以看到球的移動不再是固定的節奏，而是忽快忽慢（波形寬度長短不一）。
+* **機制**：系統根據內部的 LFSR 隨機數產生器，動態選擇不同的時鐘分頻訊號。
 
-![提早打擊波形圖](./images/early_hit.png)
-> *圖說：球尚未進區，按鈕被觸發，狀態機判定對方得分。*
+<img width="764" height="434" alt="image" src="https://github.com/user-attachments/assets/f8efc0ed-003d-4d39-8fc3-74ea1cda4939" />
 
+> *圖說：啟用變速開關後，LED 移動的時間間隔發生變化（波形寬度不固定），展示了隨機速度功能。*
 ### 3. 過頭/失誤 (Miss / Overdue)
 **情境**：球已經移動到邊界，但玩家沒有在該週期內按下按鈕，導致球移出 LED 顯示範圍 (`00000000`)。
 
 * **現象**：`o_count` 變為 `00000000` (全滅)，且按鈕訊號維持 Low。
 * **結果**：`counter_move_state` 檢測到球消失，跳轉至 `win` 狀態 (對手得分)。
 
-![過頭失誤波形圖](./images/miss_ball.png)
+<img width="610" height="446" alt="image" src="https://github.com/user-attachments/assets/5b06cee2-5084-447e-9ae9-c22e25f2d3e3" />
+
 > *圖說：LED 數值變為 0，狀態機判定失誤，進入獲勝結算狀態。*
 
 ---
