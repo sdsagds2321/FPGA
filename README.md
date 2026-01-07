@@ -1,6 +1,5 @@
 # FPGA Ping Pong Game (VHDL)
 
-這是一個基於 VHDL 設計的雙人乒乓球遊戲電路。使用 8 顆 LED 代表乒乓球的移動軌跡，透過左右兩顆按鈕進行擊球。系統包含分數統計、發球機制以及隨機速度變化功能。
 
 ##  功能簡介 (Features)
 
@@ -22,7 +21,6 @@
 ### 1. 成功回擊 (Successful Return)
 **情境**：當球移動到最左邊 (`10000000`) 或最右邊 (`00000001`) 的瞬間，按下對應的按鈕。
 
-* **現象**：`o_count` 到達邊界值，`counter_move_state` 從 `counting` 狀態立即轉變為反向移動狀態。球體順利反彈。
 
 <img width="772" height="476" alt="image" src="https://github.com/user-attachments/assets/e4782138-28d1-474f-88f3-88f185bd6815" />
 
@@ -31,7 +29,6 @@
 ### 2. 隨機變速 (Random Speed Mode)
 **情境**：將變速開關 `i_speed_switch` 拉高 (`1`)，啟用隨機速度模式。
 
-* **現象**：在變速模式下，觀察 `o_count` 每一格移動的時間寬度（波形持續時間）。可以看到球的移動不再是固定的節奏，而是忽快忽慢（波形寬度長短不一）。
 * **機制**：系統根據內部的 LFSR 隨機數產生器，動態選擇不同的時鐘分頻訊號。
 
 <img width="764" height="434" alt="image" src="https://github.com/user-attachments/assets/f8efc0ed-003d-4d39-8fc3-74ea1cda4939" />
@@ -40,7 +37,6 @@
 ### 3. 過頭/失誤 (Miss / Overdue)
 **情境**：球已經移動到邊界，但玩家沒有在該週期內按下按鈕，導致球移出 LED 顯示範圍 (`00000000`)。
 
-* **現象**：`o_count` 變為 `00000000` (全滅)，且按鈕訊號維持 Low。
 * **結果**：`counter_move_state` 檢測到球消失，跳轉至 `win` 狀態 (對手得分)。
 
 <img width="610" height="446" alt="image" src="https://github.com/user-attachments/assets/5b06cee2-5084-447e-9ae9-c22e25f2d3e3" />
